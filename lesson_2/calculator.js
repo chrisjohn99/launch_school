@@ -9,33 +9,33 @@ function invalidNumber(number) {
   return number.trimStart() === "" || Number.isNaN(Number(number));
 }
 
-function calculatorFlow() {
+function calculatorFlow(languageSelection) {
   // Ask the user for the first number.
-  prompt(MESSAGE.firstNumber);
+  prompt(MESSAGE[languageSelection].firstNumber);
   let number1 = readline.question();
 
   while (invalidNumber(number1)) {
-    prompt(MESSAGE.invalidNumber);
+    prompt(MESSAGE[languageSelection].invalidNumber);
     number1 = readline.question();
   }
 
   prompt(number1);
 
   // Ask the user for the second number.
-  prompt(MESSAGE.secondNumber);
+  prompt(MESSAGE[languageSelection].secondNumber);
   let number2 = readline.question();
 
   while (invalidNumber(number2)) {
-    prompt(MESSAGE.invalidNumber);
+    prompt(MESSAGE[languageSelection].invalidNumber);
     number2 = readline.question();
   }
 
   // Ask the user for an operation to perform.
-  prompt(MESSAGE.operation);
+  prompt(MESSAGE[languageSelection].operation);
   let operation = readline.question();
 
   while (!["1", "2", "3", "4"].includes(operation)) {
-    prompt(MESSAGE.invalidOperation);
+    prompt(MESSAGE[languageSelection].invalidOperation);
     operation = readline.question();
   }
 
@@ -61,18 +61,26 @@ function calculatorFlow() {
   }
 
   // Print the result to the terminal.
-  prompt(`${MESSAGE.result} ${output}`);
+  prompt(`${MESSAGE[languageSelection].result} ${output}`);
 }
 
-prompt(MESSAGE.welcome);
+prompt(MESSAGE.en.welcome);
+languageSelection = readline.question();
+while (!["en", "zh"].includes(languageSelection)) {
+  prompt(MESSAGE.en.invalidLanguage);
+  languageSelection = readline.question();
+}
+
+const LANGUAGE = languageSelection;
+
 let newCalculation = "y";
 
 do {
-  calculatorFlow();
-  prompt(MESSAGE.newCalculation);
+  calculatorFlow(languageSelection);
+  prompt(MESSAGE[languageSelection].newCalculation);
   newCalculation = readline.question();
   while (!["y", "n"].includes(newCalculation)) {
-    prompt(MESSAGE.invalidNewCalculation);
+    prompt(MESSAGE[languageSelection].invalidNewCalculation);
     newCalculation = readline.question();
   }
 } while (newCalculation === "y");
