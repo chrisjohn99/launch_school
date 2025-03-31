@@ -1,11 +1,25 @@
 {
-  "welcome": "Welcome to Calculator!",
-  "firstNumber": "What's the first number?",
-  "secondNumber": "What's the second number?",
-  "invalidNumber": "Hmm... that doesn't look like a valid number.",
-  "operation": "What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide",
-  "invalidOperation": "What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide",
-  "result": "The result is:",
-  "newCalculation": "Would you like to perform another calculation? (y/n)",
-  "invalidNewCalculation": "Must choose y or n"
+  "en": {
+    "welcome": "Welcome to Calculator! Please select your language (en/zh):",
+    "firstNumber": "What's the first number?",
+    "secondNumber": "What's the second number?",
+    "invalidNumber": "Hmm... that doesn't look like a valid number.",
+    "operation": "What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide",
+    "invalidOperation": "What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide",
+    "result": "The result is:",
+    "newCalculation": "Would you like to perform another calculation? (y/n)",
+    "invalidNewCalculation": "Must choose y or n",
+    "invalidLanguage": "Must choose en or zh"
+  },
+  "zh": {
+    "welcome": "Huan ying to Calculator!",
+    "firstNumber": "Shen me the first number?",
+    "secondNumber": "Shen me the second number?",
+    "invalidNumber": "Hmm... bu kan qi lai a valid number.",
+    "operation": "Shen me operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide",
+    "invalidOperation": "Shen me operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide",
+    "result": "Cheng gong:",
+    "newCalculation": "Ni xiang perform another calculation? (y/n)",
+    "invalidNewCalculation": "Xu yao choose y or n"
+  }
 }
