@@ -1,5 +1,5 @@
 const readline = require("readline-sync");
-const messages = require("./calculator_messages.json");
+const MESSAGE = require("./calculator_messages.json");
 
 function prompt(message) {
   console.log(`=> ${message}`);
@@ -11,31 +11,31 @@ function invalidNumber(number) {
 
 function calculatorFlow() {
   // Ask the user for the first number.
-  prompt(messages.firstNumber);
+  prompt(MESSAGE.firstNumber);
   let number1 = readline.question();
 
   while (invalidNumber(number1)) {
-    prompt(messages.invalidNumber);
+    prompt(MESSAGE.invalidNumber);
     number1 = readline.question();
   }
 
   prompt(number1);
 
   // Ask the user for the second number.
-  prompt(messages.secondNumber);
+  prompt(MESSAGE.secondNumber);
   let number2 = readline.question();
 
   while (invalidNumber(number2)) {
-    prompt(messages.invalidNumber);
+    prompt(MESSAGE.invalidNumber);
     number2 = readline.question();
   }
 
   // Ask the user for an operation to perform.
-  prompt(messages.operation);
+  prompt(MESSAGE.operation);
   let operation = readline.question();
 
   while (!["1", "2", "3", "4"].includes(operation)) {
-    prompt(messages.invalidOperation);
+    prompt(MESSAGE.invalidOperation);
     operation = readline.question();
   }
 
@@ -61,18 +61,18 @@ function calculatorFlow() {
   }
 
   // Print the result to the terminal.
-  prompt(`${messages.result} ${output}`);
+  prompt(`${MESSAGE.result} ${output}`);
 }
 
-prompt(messages.welcome);
+prompt(MESSAGE.welcome);
 let newCalculation = "y";
 
 do {
   calculatorFlow();
-  prompt(messages.newCalculation);
+  prompt(MESSAGE.newCalculation);
   newCalculation = readline.question();
   while (!["y", "n"].includes(newCalculation)) {
-    prompt(messages.invalidNewCalculation);
+    prompt(MESSAGE.invalidNewCalculation);
     newCalculation = readline.question();
   }
 } while (newCalculation === "y");
