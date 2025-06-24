@@ -78,7 +78,7 @@ class Board {
   }
 
   displayWithClear() {
-    console.clear();
+    //console.clear();
     console.log("");
     console.log("");
     this.display();
@@ -119,6 +119,51 @@ class TTTGame {
     ["3", "5", "7"], // diagonal: bottom-left to top-right
   ];
 
+  static joinOr(arr, delimiter = ", ", connectiveWord = "or") {
+    let length = arr.length;
+
+    if (length === 0) {
+      return "";
+    } else if (length === 1) {
+      return String(arr[0]);
+    } else if (length === 2) {
+      return `${arr[0]} ${connectiveWord} ${arr[1]}`;
+    } else {
+      let str = "";
+      for (let i = 0; i < length - 1; i += 1) {
+        str += arr[i] + delimiter;
+      }
+      str += connectiveWord + " " + arr[length - 1];
+      return str;
+    }
+  }
+
+  static identifyPriorityMove(board, player) {
+    for (let line = 0; line < TTTGame.POSSIBLE_WINNING_ROWS.length; line++) {
+      let [sq1, sq2, sq3] = TTTGame.POSSIBLE_WINNING_ROWS[line];
+
+      if (
+        board[sq1].marker === player &&
+        board[sq2].marker === player &&
+        board[sq3].marker === " "
+      )
+        return sq3;
+      if (
+        board[sq1].marker === " " &&
+        board[sq2].marker === player &&
+        board[sq3].marker === player
+      )
+        return sq1;
+      if (
+        board[sq1].marker === player &&
+        board[sq2].marker === " " &&
+        board[sq3].marker === player
+      )
+        return sq2;
+    }
+    return null;
+  }
+
   constructor() {
     this.board = new Board();
     this.human = new Human();
@@ -126,8 +171,6 @@ class TTTGame {
   }
 
   play() {
-    this.displayWelcomeMessage();
-
     this.board.display();
     while (true) {
       this.humanMoves();
@@ -141,17 +184,6 @@ class TTTGame {
 
     this.board.displayWithClear();
     this.displayResults();
-    this.displayGoodbyeMessage();
-  }
-
-  displayWelcomeMessage() {
-    console.clear();
-    console.log("Welcome to Tic Tac Toe!");
-    console.log("");
-  }
-
-  displayGoodbyeMessage() {
-    console.log("Thanks for playing Tic Tac Toe! Goodbye!");
   }
 
   displayResults() {
@@ -169,7 +201,7 @@ class TTTGame {
 
     while (true) {
       let validChoices = this.board.unusedSquares();
-      const prompt = `Choose a square (${validChoices.join(", ")}): `;
+      const prompt = `Choose a square (${TTTGame.joinOr(validChoices)}): `;
       choice = readline.question(prompt);
 
       if (validChoices.includes(choice)) break;
@@ -185,9 +217,30 @@ class TTTGame {
     let validChoices = this.board.unusedSquares();
     let choice;
 
-    do {
-      choice = Math.floor(9 * Math.random() + 1).toString();
-    } while (!validChoices.includes(choice));
+    if (validChoices.find((square) => square === "5")) {
+      choice = "5";
+    } else if (
+      TTTGame.identifyPriorityMove(
+        this.board.squares,
+        this.computer.getMarker()
+      )
+    ) {
+      choice = TTTGame.identifyPriorityMove(
+        this.board.squares,
+        this.computer.getMarker()
+      );
+    } else if (
+      TTTGame.identifyPriorityMove(this.board.squares, this.human.getMarker())
+    ) {
+      choice = TTTGame.identifyPriorityMove(
+        this.board.squares,
+        this.human.getMarker()
+      );
+    } else {
+      do {
+        choice = Math.floor(9 * Math.random() + 1).toString();
+      } while (!validChoices.includes(choice));
+    }
 
     this.board.markSquareAt(choice, this.computer.getMarker());
   }
@@ -207,5 +260,34 @@ class TTTGame {
   }
 }
 
-let game = new TTTGame();
-game.play();
+class TTTSet {
+  start() {
+    this.displayWelcomeMessage();
+
+    while (true) {
+      let game = new TTTGame();
+      game.play();
+      console.log("Play again? (y or n)");
+      let answer = readline.question().toLowerCase();
+      while (!["y", "n", "Y", "N"].includes(answer)) {
+        prompt("Invalid entry. Play again? (y or n)");
+        answer = readline.question().toLowerCase();
+      }
+      if (answer !== "y") break;
+      console.clear();
+    }
+    this.displayGoodbyeMessage();
+  }
+  displayWelcomeMessage() {
+    console.clear();
+    console.log("Welcome to Tic Tac Toe!");
+    console.log("");
+  }
+
+  displayGoodbyeMessage() {
+    console.log("Thanks for playing Tic Tac Toe! Goodbye!");
+  }
+}
+
+let set = new TTTSet();
+set.start();
